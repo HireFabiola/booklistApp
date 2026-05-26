@@ -1,0 +1,23 @@
+{
+  "name": "booklist",
+  "version": "1.0.0",
+  "description": "Library App!",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "Paul Chapman",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^9.6.2",
+    "nodemon": "^3.1.14"
+  }
+}

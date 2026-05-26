@@ -1,0 +1,73 @@
+<%
+const favoriteOnly = books.filter(book => book.favorite && !book.completed);
+const favoriteCompleted = books.filter(book => book.favorite && book.completed);
+const completedOnly = books.filter(book => !book.favorite && book.completed);
+const allElse = books.filter(book => !book.favorite && !book.completed);
+
+const piles = [
+  { title: "Favorites", books: favoriteOnly },
+  { title: "Favorite + Finished", books: favoriteCompleted },
+  { title: "Finished", books: completedOnly },
+  { title: "All Else", books: allElse }
+];
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Book Piles</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body class="pilePage">
+
+  <header class="heroCard">
+    <h1>Book Piles</h1>
+    <p>Your personal library, organized by favorites and finished reads.</p>
+
+    <nav class="topNav">
+      <a href="/">Home</a>
+      <a href="/books/new">Add New Book</a>
+    </nav>
+  </header>
+
+  <main class="pileGrid">
+    <% piles.forEach(pile => { %>
+      <section class="pileColumn">
+        <h2><%= pile.title %></h2>
+
+        <div>
+          <% if (pile.books.length === 0) { %>
+            <p class="emptyPile">No books yet</p>
+          <% } %>
+
+          <% pile.books.forEach((book, index) => { %>
+            <div
+              class="stackBook stack-<%= (index % 5) + 1 %>"
+              style="z-index:<%= index + 1 %>;"
+            >
+              <div class="bookFace">
+                <a class="bookText" href="/books/<%= book._id %>">
+                  <span class="bookTitle"><%= book.title %></span>
+                  <span class="bookAuthor"><%= book.author %></span>
+                </a>
+
+                <div class="bookActions">
+                  <a href="/books/<%= book._id %>/edit">Edit</a>
+
+                  <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
+                    <button type="submit">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+    <% }) %>
+  </main>
+
+</body>
+</html>
