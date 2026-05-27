@@ -1,8 +1,8 @@
 <%
-const favoriteOnly = books.filter(book => book.favorite && !book.completed);
-const favoriteCompleted = books.filter(book => book.favorite && book.completed);
-const completedOnly = books.filter(book => !book.favorite && book.completed);
-const allElse = books.filter(book => !book.favorite && !book.completed);
+const favoriteOnly = books.filter(book => book.favorite === true && book.completed !== true);
+const favoriteCompleted = books.filter(book => book.favorite === true && book.completed === true);
+const completedOnly = books.filter(book => book.favorite !== true && book.completed === true);
+const allElse = books.filter(book => book.favorite !== true && book.completed !== true);
 
 const piles = [
   { title: "Favorites", books: favoriteOnly },

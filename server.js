@@ -46,6 +46,7 @@ app.get("/books", async (req, res) => {
 app.get("/books/booklist", async (req, res) => {
     try {
         const books = await Book.find({});
+        console.log("Books from database:", JSON.stringify(books, null, 2));
         res.render("booklist.ejs", { books });
     } catch (error) {
         console.error(error);
@@ -85,13 +86,14 @@ app.get("/books/:id/edit", async (req, res) => {
 // CREATE
 app.post("/books", async (req, res) => {
     try {
+        console.log("Raw form data:", req.body);
         req.body.completed = req.body.completed === "on";
         req.body.favorite = req.body.favorite === "on";
 
         await Book.create(req.body);
 
         console.log("Book has successfully been created!");
-        console.log(req.body);
+        console.log("After conversion:", req.body);
 
         res.redirect("/books/booklist");
     } catch (error) {
