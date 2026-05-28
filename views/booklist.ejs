@@ -1,73 +1,340 @@
-<%
-const favoriteOnly = books.filter(book => book.favorite === true && book.completed !== true);
-const favoriteCompleted = books.filter(book => book.favorite === true && book.completed === true);
-const completedOnly = books.filter(book => book.favorite !== true && book.completed === true);
-const allElse = books.filter(book => book.favorite !== true && book.completed !== true);
-
-const piles = [
-  { title: "Favorites", books: favoriteOnly },
-  { title: "Favorite + Finished", books: favoriteCompleted },
-  { title: "Finished", books: completedOnly },
-  { title: "All Else", books: allElse }
-];
-%>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Book Piles</title>
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading List</title>
+  <link rel="stylesheet" href="/style.css">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, serif;
+      background: #120d08;
+      color: #fff7ec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .scene {
+      position: relative;
+      width: min(100vw, 177.78vh);
+      aspect-ratio: 16 / 9;
+      background-image: url("/openbookList.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .heroCard {
+      position: absolute;
+      top: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    /* ---------- PAGE HEADER ---------- */
+
+    .pageHeader {
+      text-align: center;
+      padding-top: 2rem;
+    }
+
+    .pageHeader h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 5vw, 4.6rem);
+      color: #fff7ec;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, .45);
+    }
+
+    .pageHeader p {
+      margin: .35rem 0 1rem;
+      font-style: italic;
+      color: #f3e7d3;
+      font-size: 1.1rem;
+    }
+
+    .topNav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    /* .topNav a {
+      color: #fff7ec;
+      text-decoration: none;
+      font-size: 1.05rem;
+      padding: .65rem 1.2rem;
+      border-radius: 999px;
+      background: rgba(35, 20, 12, .55);
+      backdrop-filter: blur(4px);
+    } */
+
+    .sortForm {
+      margin: 0;
+    }
+
+.sortForm select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  font: inherit;
+  cursor: pointer;
+}
+
+    /* ---------- BOOK LIST WRITTEN ON PAGE ---------- */
+
+    .bookPageList {
+      position: absolute;
+      top: 34%;
+      left: 32%;
+      width: 35%;
+      height: 45%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+       padding-bottom: 1.6rem;
+
+      font-family: "Bradley Hand", "Comic Sans MS", cursive;
+      font-size: clamp(.58rem, .85vw, .95rem);
+      color: #3a2718;
+    }
+
+    .bookHeader,
+    .bookRow {
+      display: grid;
+
+      grid-template-columns:
+        2fr 1.2fr .8fr .8fr 1fr;
+
+      column-gap: .6rem;
+      align-items: center;
+      padding: .32rem 0;
+     
+    }
+
+    .bookHeader {
+      font-family: Georgia, serif;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(70, 45, 25, .35);
+      margin-bottom: .25rem;
+    }
+
+    .bookRow {
+      border-bottom: 1px solid rgba(70, 45, 25, .14);
+    }
+
+    .bookTitle {
+      color: #3a2718;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .statusForm {
+      display: inline;
+      margin: 0;
+    }
+
+    .statusBtn {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 1.15rem;
+      cursor: pointer;
+      color: #3a2718;
+      padding: 0;
+    }
+
+    .actionCell {
+      display: flex;
+      gap: .25rem;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .actionLink,
+    .deleteBtn {
+      background: none;
+      border: none;
+      color: #3a2718;
+      text-decoration: underline;
+      font-family: inherit;
+      font-size: .95rem;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .deleteForm {
+      margin: 0;
+    }
+
+    .emptyList {
+      margin-top: 2rem;
+      text-align: center;
+      font-style: italic;
+    }
+
+   .pagination {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding-top: .4rem;
+  display: flex;
+  justify-content: center;
+  gap: .6rem;
+  font-family: Georgia, serif;
+}
+
+    .pagination a {
+      color: #3a2718;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 1px solid transparent;
+    }
+
+    .pagination a:hover,
+    .pagination .activePage {
+      border-bottom: 1px solid #3a2718;
+    }
+  </style>
 </head>
 
-<body class="pilePage">
+<body>
+  <div class="scene">
+    <div class="heroCard">
 
-  <header class="heroCard">
-    <h1>Book Piles</h1>
-    <p>Your personal library, organized by favorites and finished reads.</p>
 
-    <nav class="topNav">
-      <a href="/">Home</a>
-      <a href="/books/new">Add New Book</a>
-    </nav>
-  </header>
+      <h1>Reading List</h1>
 
-  <main class="pileGrid">
-    <% piles.forEach(pile => { %>
-      <section class="pileColumn">
-        <h2><%= pile.title %></h2>
+      <p> Track the books you’re reading, save the ones you’ve finished,
+        and create a collection that tells your story as a reader.
+        From current reads to treasured favorites, keep every chapter
+        of your journey in one place.</p>
 
-        <div>
-          <% if (pile.books.length === 0) { %>
-            <p class="emptyPile">No books yet</p>
-          <% } %>
+      <nav class="topNav">
 
-          <% pile.books.forEach((book, index) => { %>
-            <div
-              class="stackBook stack-<%= (index % 5) + 1 %>"
-              style="z-index:<%= index + 1 %>;"
-            >
-              <div class="bookFace">
-                <a class="bookText" href="/books/<%= book._id %>">
-                  <span class="bookTitle"><%= book.title %></span>
-                  <span class="bookAuthor"><%= book.author %></span>
-                </a>
+        <a class="btn" href="/">Home</a>
+        <a class="btn" href="/books/new">Add New Book</a>
 
-                <div class="bookActions">
-                  <a href="/books/<%= book._id %>/edit">Edit</a>
+        <form class="sortForm" action="/books/booklist" method="GET">
+          <input type="hidden" name="page" value="1">
 
-                  <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
-                    <button type="submit">Delete</button>
-                  </form>
-                </div>
+         <select class="btn" name="filter" onchange="this.form.submit()">
+            <option value="all" <%=filter==="all" ? "selected" : "" %>>Sort Reading List</option>
+            <option value="favorites" <%=filter==="favorites" ? "selected" : "" %>>Favorites</option>
+            <option value="finished" <%=filter==="finished" ? "selected" : "" %>>Finished</option>
+            <option value="favoriteFinished" <%=filter==="favoriteFinished" ? "selected" : "" %>>Favorite + Finished
+            </option>
+          </select>
+        </form>
+
+      </nav>
+
+    </div>
+
+    <!-- WRITING INSIDE BOOK -->
+
+    <main class="bookPageList">
+
+      <div class="bookHeader">
+        <span>Title</span>
+        <span>Author</span>
+        <span>Favorite?</span>
+        <span>Finished?</span>
+        <span>Edit / Delete</span>
+      </div>
+
+      <% if(books.length===0){ %>
+        <p class="emptyList">No books yet.</p>
+        <% } %>
+
+          <% books.forEach(book=> { %>
+
+            <div class="bookRow">
+
+              <a class="bookTitle" href="/books/<%= book._id %>">
+                <%= book.title %>
+              </a>
+
+              <span>
+                <%= book.author %>
+              </span>
+
+              <!-- FAVORITE -->
+
+              <form class="statusForm" action="/books/<%= book._id %>?_method=PUT" method="POST">
+                <input type="hidden" name="favorite" value="<%= !book.favorite %>">
+
+                <input type="hidden" name="completed" value="<%= book.completed %>">
+
+                <button class="statusBtn" type="submit">
+                  <%= book.favorite ? "♥" : "♡" %>
+                </button>
+              </form>
+
+              <!-- FINISHED -->
+
+              <form class="statusForm" action="/books/<%= book._id %>?_method=PUT" method="POST">
+                <input type="hidden" name="favorite" value="<%= book.favorite %>">
+
+                <input type="hidden" name="completed" value="<%= !book.completed %>">
+
+                <button class="statusBtn" type="submit">
+                  <%= book.completed ? "✓" : "☐" %>
+                </button>
+              </form>
+
+              <!-- EDIT -->
+
+              <div class="actionCell">
+                <a class="actionLink" href="/books/<%= book._id %>/edit">edit</a>
+                <span>/</span>
+
+                <form class="deleteForm" action="/books/<%= book._id %>?_method=DELETE" method="POST">
+                  <button class="deleteBtn" type="submit">delete</button>
+                </form>
               </div>
-            </div>
-          <% }) %>
-        </div>
-      </section>
-    <% }) %>
-  </main>
 
+            </div>
+
+            <% }) %>
+
+              <p>
+                List <%= currentPage %> of <%= totalPages %>
+              </p>
+
+
+
+              <div class="pagination">
+
+                <% if (currentPage> 1) { %>
+                  <a href="/books/booklist?page=<%= currentPage - 1 %>&filter=<%= filter %>">‹</a>
+                  <% } %>
+
+                    <% for (let i=1; i <=totalPages; i++) { %>
+                      <a class="<%= currentPage === i ? 'activePage' : '' %>"
+                        href="/books/booklist?page=<%= i %>&filter=<%= filter %>">
+                        <%= i %>
+                      </a>
+                      <% } %>
+
+                        <% if (currentPage < totalPages) { %>
+                          <a href="/books/booklist?page=<%= currentPage + 1 %>&filter=<%= filter %>">›</a>
+                          <% } %>
+              </div>
+
+    </main>
+  </div>
 </body>
+
 </html>
