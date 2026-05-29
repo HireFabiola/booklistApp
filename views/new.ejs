@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add a New Book</title>
+    <link rel="stylesheet" href="/style.css" />
 
     <style>
         body {
@@ -101,6 +102,7 @@
             bottom: 4%;
             left: 50%;
             transform: translateX(-50%);
+
             border: none;
             border-radius: 999px;
             padding: 0.9rem 1.5rem;
@@ -108,12 +110,41 @@
             color: #fff;
             font-family: Georgia, serif;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            min-width: 170px;
+            box-sizing: border-box;
+        }
+.newBookHero {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+        .newBookHero h1 {
+            color: #f3ede4
         }
     </style>
 </head>
 
 <body>
+
+    <div class="heroCard newBookHero">
+        <h1>Add a Book</h1>
+        <p>What book will find a home on your digital shelf next? <br>Inquiring minds want to know!</p>
+
+        <nav class="topNav">
+            <a class="btn" href="/">Home</a>
+            <a class="btn" href="/books/booklist">View Reading List</a>
+        </nav>
+    </div>
+
     <form action="/books" method="POST" class="bookForm">
         <input class="titleField" type="text" name="title" placeholder="Title?" required />
 
@@ -131,9 +162,11 @@
             </label>
         </div>
 
-        <button class="submitBtn" type="submit">Add Book</button>
+        <button class="submitBtn" type="submit">
+            Add Book
+        </button>
+
     </form>
 </body>
 
 </html>
-

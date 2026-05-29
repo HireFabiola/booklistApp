@@ -2,137 +2,200 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Book</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Book</title>
+  <link rel="stylesheet" href="/style.css" />
 
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Georgia, serif;
-            background-image: url("/image-1779301310374.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, serif;
+      background-image: url("/image-1779301310374.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
-        .bookForm {
-            position: absolute;
-            top: 48%;
-            left: 45.5%;
-            transform: translate(-50%, -50%);
-            width: clamp(240px, 28vw, 420px);
-            height: clamp(360px, 42vw, 640px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #f7f2eb;
-        }
+    .bookForm {
+      position: absolute;
+      top: 48%;
+      left: 45.5%;
+      transform: translate(-50%, -50%);
+      width: clamp(240px, 28vw, 420px);
+      height: clamp(360px, 42vw, 640px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #f7f2eb;
+    }
 
-        .bookForm input[type="text"] {
-            width: 75%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.65);
-            color: #fff;
-            text-align: center;
-            font-family: Georgia, serif;
-        }
+    .bookForm input[type="text"] {
+      width: 75%;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.65);
+      color: #fff;
+      text-align: center;
+      font-family: Georgia, serif;
+    }
 
-        .bookForm input::placeholder {
-            color: rgba(255, 255, 255, 0.65);
-        }
+    .bookForm input::placeholder {
+      color: rgba(255, 255, 255, 0.65);
+    }
 
-        .titleField {
-            font-size: clamp(1.6rem, 3vw, 3rem);
-            font-weight: bold;
-            letter-spacing: 0.08em;
-            margin-bottom: 1.5rem;
-        }
+    .titleField {
+      font-size: clamp(1.6rem, 3vw, 3rem);
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+    }
 
-        .authorField {
-            font-size: clamp(1rem, 1.5vw, 1.5rem);
-            font-style: italic;
-        }
+    .authorField {
+      font-size: clamp(1rem, 1.5vw, 1.5rem);
+      font-style: italic;
+    }
 
-        .bookOptions {
-            position: absolute;
-            bottom: 16%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(0.75rem, 1vw, 1rem);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #f7f2eb;
-        }
+    .bookOptions {
+      position: absolute;
+      bottom: 16%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(0.75rem, 1vw, 1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #f7f2eb;
+    }
 
-        .bookOptions label {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
+    .bookOptions label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-        .bookOptions input {
-            width: 18px;
-            height: 18px;
-            accent-color: #d9b879;
-        }
+    .bookOptions input {
+      width: 18px;
+      height: 18px;
+      accent-color: #d9b879;
+    }
 
-        .completedToggle label {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
+    .completedToggle label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-        .completedToggle input {
-            width: 18px;
-            height: 18px;
-            accent-color: #d9b879;
-        }
+    .completedToggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: #d9b879;
+    }
 
-        .submitBtn {
-            position: absolute;
-            bottom: 4%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: none;
-            border-radius: 999px;
-            padding: 0.9rem 1.5rem;
-            background: #a36b2d;
-            color: #fff;
-            font-family: Georgia, serif;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-        }
-    </style>
+    .submitBtn {
+      position: absolute;
+      bottom: 4%;
+      left: 50%;
+      transform: translateX(-50%);
+
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem 1.5rem;
+      background: #a36b2d;
+      color: #fff;
+      font-family: Georgia, serif;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      min-width: 170px;
+      box-sizing: border-box;
+    }
+
+.newBookHero {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+
+    .newBookHero h1 {
+      color: #f3ede4
+    }
+
+    .notesBtn {
+      position: absolute;
+      bottom: -12%;
+      left: 50%;
+      transform: translateX(-50%);
+
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem 1.5rem;
+      background: #a36b2d;
+      color: #fff;
+      font-family: Georgia, serif;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      min-width: 170px;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 
 <body>
-    <form action="/books/<%= book._id %>?_method=PUT" method="POST" class="bookForm">
-       <input class="titleField" type="text" name="title" value="<%= book.title %>" required />
 
-     <input class="authorField" type="text" name="author" value="<%= book.author %>" required />
+  <div class="heroCard newBookHero">
+    <h1>Edit this Book</h1>
+    <p>Every book leaves something behind. Edit the details or capture the thoughts this story stirred in you. </p>
 
-        <div class="bookOptions">
-            <label>
-                <input type="checkbox" name="favorite" value="on" <%= book.favorite ? "checked" : "" %> />
-                Favorite?
-            </label>
+    <nav class="topNav">
+      <a class="btn" href="/">Home</a>
+      <a class="btn" href="/books/booklist">View Reading List</a>
+    </nav>
+  </div>
 
-            <label>
-                <input type="checkbox" name="completed" value="on" <%= book.completed ? "checked" : "" %> />
-                Finished?
-            </label>
-        </div>
+  <form action="/books/<%= book._id %>?_method=PUT" method="POST" class="bookForm">
+    <input class="titleField" type="text" name="title" value="<%= book.title %>" required />
 
-        <button class="submitBtn" type="submit">Save Changes</button>
-    </form>
+    <input class="authorField" type="text" name="author" value="<%= book.author %>" required />
+
+    <div class="bookOptions">
+      <label>
+        <input type="checkbox" name="favorite" value="on" <%=book.favorite ? "checked" : "" %> />
+        Favorite?
+      </label>
+
+      <label>
+        <input type="checkbox" name="completed" value="on" <%=book.completed ? "checked" : "" %> />
+        Finished?
+      </label>
+    </div>
+
+    <button class="submitBtn" type="submit">
+      Save Changes
+    </button>
+
+    <a class="notesBtn" href="/books/<%= book._id %>">
+      Add Notes / Journal
+    </a>
+  </form>
+
 </body>
 
 </html>

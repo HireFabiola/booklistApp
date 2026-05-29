@@ -21,10 +21,10 @@
 
     .scene {
       position: relative;
-      width: min(100vw, 177.78vh);
-      aspect-ratio: 16 / 9;
+      width: 100vw;
+      height: 100vh;
       background-image: url("/openbookList.png");
-      background-size: contain;
+      background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -81,14 +81,14 @@
       margin: 0;
     }
 
-.sortForm select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+    .sortForm select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
 
-  font: inherit;
-  cursor: pointer;
-}
+      font: inherit;
+      cursor: pointer;
+    }
 
     /* ---------- BOOK LIST WRITTEN ON PAGE ---------- */
 
@@ -102,7 +102,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-       padding-bottom: 1.6rem;
+      padding-bottom: 1.6rem;
 
       font-family: "Bradley Hand", "Comic Sans MS", cursive;
       font-size: clamp(.58rem, .85vw, .95rem);
@@ -119,7 +119,7 @@
       column-gap: .6rem;
       align-items: center;
       padding: .32rem 0;
-     
+
     }
 
     .bookHeader {
@@ -183,17 +183,18 @@
       font-style: italic;
     }
 
-   .pagination {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding-top: .4rem;
-  display: flex;
-  justify-content: center;
-  gap: .6rem;
-  font-family: Georgia, serif;
-}
+    .pagination {
+      position: absolute;
+      bottom: 8%;
+      right: 4%;
+
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: .5rem;
+
+      font-family: Georgia, serif;
+    }
 
     .pagination a {
       color: #3a2718;
@@ -206,20 +207,27 @@
     .pagination .activePage {
       border-bottom: 1px solid #3a2718;
     }
+
+    .readingListHero {
+      position: absolute;
+      top: 50%;
+      right: -2%;
+      left: auto;
+      transform: translateY(-50%);
+      z-index: 5;
+    }
   </style>
 </head>
 
 <body>
   <div class="scene">
-    <div class="heroCard">
+    <div class="heroCard readingListHero">
 
 
       <h1>Reading List</h1>
 
-      <p> Track the books you’re reading, save the ones you’ve finished,
-        and create a collection that tells your story as a reader.
-        From current reads to treasured favorites, keep every chapter
-        of your journey in one place.</p>
+      <p>From current reads to treasured favorites, keep every chapter
+        of your journey in one place. Here is your collection that tells your story as a reader.</p>
 
       <nav class="topNav">
 
@@ -229,7 +237,7 @@
         <form class="sortForm" action="/books/booklist" method="GET">
           <input type="hidden" name="page" value="1">
 
-         <select class="btn" name="filter" onchange="this.form.submit()">
+          <select class="btn" name="filter" onchange="this.form.submit()">
             <option value="all" <%=filter==="all" ? "selected" : "" %>>Sort Reading List</option>
             <option value="favorites" <%=filter==="favorites" ? "selected" : "" %>>Favorites</option>
             <option value="finished" <%=filter==="finished" ? "selected" : "" %>>Finished</option>
@@ -272,7 +280,8 @@
 
               <!-- FAVORITE -->
 
-              <form class="statusForm" action="/books/<%= book._id %>?_method=PUT" method="POST">
+              <form class="statusForm"
+                action="/books/<%= book._id %>?_method=PUT&filter=<%= filter %>&page=<%= currentPage %>" method="POST">
                 <input type="hidden" name="favorite" value="<%= !book.favorite %>">
 
                 <input type="hidden" name="completed" value="<%= book.completed %>">
@@ -283,8 +292,8 @@
               </form>
 
               <!-- FINISHED -->
-
-              <form class="statusForm" action="/books/<%= book._id %>?_method=PUT" method="POST">
+              <form class="statusForm"
+                action="/books/<%= book._id %>?_method=PUT&filter=<%= filter %>&page=<%= currentPage %>" method="POST">
                 <input type="hidden" name="favorite" value="<%= book.favorite %>">
 
                 <input type="hidden" name="completed" value="<%= !book.completed %>">
@@ -308,11 +317,6 @@
             </div>
 
             <% }) %>
-
-              <p>
-                List <%= currentPage %> of <%= totalPages %>
-              </p>
-
 
 
               <div class="pagination">

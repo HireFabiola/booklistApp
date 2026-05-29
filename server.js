@@ -148,17 +148,30 @@ app.post("/books", async (req, res) => {
 // UPDATE
 app.put("/books/:id", async (req, res) => {
     try {
-        req.body.favorite = req.body.favorite === "true" || req.body.favorite === "on";
-        req.body.completed = req.body.completed === "true" || req.body.completed === "on";
+        req.body.favorite =
+            req.body.favorite === "true" ||
+            req.body.favorite === "on";
+
+        req.body.completed =
+            req.body.completed === "true" ||
+            req.body.completed === "on";
 
         await Book.findByIdAndUpdate(req.params.id, req.body, {
             returnDocument: "after",
         });
 
-        res.redirect("/books/booklist");
+        const filter = req.query.filter || "all";
+        const page = req.query.page || 1;
+
+        res.redirect(
+            `/books/booklist?filter=${filter}&page=${page}`
+        );
+
     } catch (error) {
         console.error(error);
-        res.status(500).send("There was an issue updating the book.");
+        res.status(500).send(
+            "There was an issue updating the book."
+        );
     }
 });
 // UPDATE

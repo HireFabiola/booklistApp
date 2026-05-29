@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= book.title %> Notes</title>
+  <link rel="stylesheet" href="/style.css">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, serif;
+      background: #120d08;
+      color: #fff7ec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background-image: url("/openbookList.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .notesHero {
+      position: absolute;
+      top: 50%;
+      right: -2%;
+      left: auto;
+      transform: translateY(-50%);
+      z-index: 5;
+    }
+
+    .notesHero h1 {
+      color: #f3ede4;
+    }
+
+    .notesPage {
+      position: absolute;
+      top: 32%;
+      left: 32%;
+      width: 35%;
+      height: 55%;
+      color: #3a2718;
+      font-family: "Bradley Hand", "Comic Sans MS", cursive;
+    }
+
+    .bookNoteTitle {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: clamp(.9rem, 1.1vw, 1.25rem);
+      color: #3a2718;
+      font-weight: bold;
+    }
+
+    .bookNoteAuthor {
+      text-align: center;
+      margin: .2rem 0 .75rem;
+      font-family: Georgia, serif;
+      font-style: italic;
+      color: #5a3925;
+    }
+
+    .notesPrompt {
+      text-align: center;
+      font-style: italic;
+      margin-bottom: .75rem;
+      color: #3a2718;
+    }
+
+.notesText {
+  width: 100%;
+  min-height: calc(15 * 1.55em);
+  height: calc(15 * 1.55em);
+  max-height: calc(15 * 1.55em);
+
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+
+  overflow-y: auto;
+  overflow-wrap: break-word;
+
+  color: #3a2718;
+  font-family: "Bradley Hand", "Comic Sans MS", cursive;
+  font-size: clamp(.85rem, 1vw, 1.15rem);
+  line-height: 1.55;
+  box-sizing: border-box;
+}
+.saveNotesBtn {
+  position: absolute;
+  bottom: 8%;
+  right: 4%;
+
+  border: none;
+  background: transparent;
+  color: #3a2718;
+  font-family: Georgia, serif;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="scene">
+
+    <div class="heroCard notesHero">
+      <h1>Book Journal</h1>
+      <p>Some stories deserve a little room to linger.</p>
+
+      <nav class="topNav">
+        <a class="btn" href="/">Home</a>
+        <a class="btn" href="/books/new">Add New Book</a>
+        <a class="btn" href="/books/booklist">View Reading List</a>
+      </nav>
+    </div>
+
+    <main class="notesPage">
+      <form action="/books/<%= book._id %>?_method=PUT" method="POST">
+
+        <h2 class="bookNoteTitle"><%= book.title %></h2>
+        <p class="bookNoteAuthor">by <%= book.author %></p>
+
+        <p class="notesPrompt">
+          What thoughts, quotes, or feelings did this book leave behind?
+        </p>
+
+        <input type="hidden" name="title" value="<%= book.title %>">
+        <input type="hidden" name="author" value="<%= book.author %>">
+        <input type="hidden" name="favorite" value="<%= book.favorite %>">
+        <input type="hidden" name="completed" value="<%= book.completed %>">
+
+        <textarea
+          class="notesText"
+          name="notes"
+          placeholder="Write your notes here..."><%= book.notes || "" %></textarea>
+
+        <button class="saveNotesBtn" type="submit">Save Notes</button>
+      </form>
+    </main>
+
+  </div>
+</body>
+</html>
