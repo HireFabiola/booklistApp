@@ -16,10 +16,12 @@
 Smaller-screen chapters are still being written.</p>
 
             <% if (isLoggedIn) { %>
-                <a class="btn" href="/books">Enter the Library</a>
-                <form class="logoutForm" action="/logout" method="POST">
-                    <button class="btn" type="submit">Log Out</button>
-                </form>
+                <div class="homeActions">
+                    <a class="btn" href="/books">Enter the Library</a>
+                    <form class="logoutForm" action="/logout" method="POST">
+                        <button class="btn" type="submit">Log Out</button>
+                    </form>
+                </div>
             <% } else { %>
                 <% if (loginRequired) { %>
                     <p class="loginMessage">Please log in to enter the library.</p>

@@ -99,6 +99,13 @@ button,
   margin: 0;
 }
 
+.homeActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .loginForm {
   display: flex;
   flex-direction: column;
