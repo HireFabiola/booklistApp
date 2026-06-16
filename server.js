@@ -71,7 +71,7 @@ app.post("/login", (req, res) => {
 
     if (username === DEMO_USERNAME && password === DEMO_PASSWORD) {
         req.session.isLoggedIn = true;
-        return res.redirect("/books/booklist");
+        return res.redirect("/books");
     }
 
     res.redirect("/?loginError=true");
