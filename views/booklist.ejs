@@ -233,6 +233,9 @@
 
         <a class="btn" href="/">Home</a>
         <a class="btn" href="/books/new">Add New Book</a>
+        <form class="logoutForm" action="/logout" method="POST">
+          <button class="btn" type="submit">Log Out</button>
+        </form>
 
         <form class="sortForm" action="/books/booklist" method="GET">
           <input type="hidden" name="page" value="1">

@@ -14,7 +14,27 @@
             <h1>Step Into the Quiet Stacks</h1>
             <p>Welcome.<br>This digital library is currently optimized for desktop viewing only.  <br>
 Smaller-screen chapters are still being written.</p>
-            <a class="btn" href="/books">Enter the Library</a>
+
+            <% if (isLoggedIn) { %>
+                <a class="btn" href="/books/booklist">Enter the Library</a>
+                <form class="logoutForm" action="/logout" method="POST">
+                    <button class="btn" type="submit">Log Out</button>
+                </form>
+            <% } else { %>
+                <% if (loginRequired) { %>
+                    <p class="loginMessage">Please log in to enter the library.</p>
+                <% } %>
+
+                <% if (loginError) { %>
+                    <p class="loginMessage">That username or password was not recognized.</p>
+                <% } %>
+
+                <form class="loginForm" action="/login" method="POST">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button class="btn" type="submit">Enter the Library</button>
+                </form>
+            <% } %>
         </section>
     </main>
 </body>
